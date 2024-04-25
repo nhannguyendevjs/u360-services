@@ -4,11 +4,11 @@ import { JWTConfigs } from '../app.config.mjs';
 
 const generateAccessToken = (payload) => {
   try {
-    const result = jwt.sign(payload, JWTConfigs.JWT_ACCESS_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM, expiresIn: JWTConfigs.JWT_ACCESS_TOKEN_EXPIRATION_TIME });
+    const data = jwt.sign(payload, JWTConfigs.JWT_ACCESS_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM, expiresIn: JWTConfigs.JWT_ACCESS_TOKEN_EXPIRATION_TIME });
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
@@ -23,14 +23,14 @@ const verifyAccessToken = async (token) => {
     const payload = jwt.verify(token, JWTConfigs.JWT_ACCESS_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
     const expireIn = DateTime.fromMillis(payload.exp * 1000);
     const today = DateTime.now();
-    const result = {
+    const data = {
       valid: today < expireIn,
       payload,
     };
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
@@ -42,11 +42,11 @@ const verifyAccessToken = async (token) => {
 
 const decryptAccessToken = async (token) => {
   try {
-    const result = jwt.verify(token, JWTConfigs.JWT_ACCESS_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
+    const data = jwt.verify(token, JWTConfigs.JWT_ACCESS_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
@@ -58,11 +58,11 @@ const decryptAccessToken = async (token) => {
 
 const generateRefreshToken = (payload) => {
   try {
-    const result = jwt.sign(payload, JWTConfigs.JWT_REFRESH_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM, expiresIn: JWTConfigs.JWT_REFRESH_TOKEN_EXPIRATION_TIME });
+    const data = jwt.sign(payload, JWTConfigs.JWT_REFRESH_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM, expiresIn: JWTConfigs.JWT_REFRESH_TOKEN_EXPIRATION_TIME });
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
@@ -77,14 +77,14 @@ const verifyRefreshToken = async (token) => {
     const payload = jwt.verify(token, JWTConfigs.JWT_REFRESH_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
     const expireIn = DateTime.fromMillis(payload.exp * 1000);
     const today = DateTime.now();
-    const result = {
+    const data = {
       valid: today < expireIn,
       payload,
     };
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
@@ -96,11 +96,11 @@ const verifyRefreshToken = async (token) => {
 
 const decryptRefreshToken = async (token) => {
   try {
-    const result = jwt.verify(token, JWTConfigs.JWT_REFRESH_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
+    const data = jwt.verify(token, JWTConfigs.JWT_REFRESH_TOKEN_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
 
     return {
       success: true,
-      data: result,
+      data,
     };
   } catch (error) {
     return {
