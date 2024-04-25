@@ -4,7 +4,7 @@ import UsersModel from '../../../models/users.model.mjs';
 const getUsers = async (req) => {
   try {
     const query = req.body.query;
-    const users = await UsersModel.find().and(query).exec();
+    const users = await UsersModel.find(query);
 
     return users.map((user) =>
       user.toObject({
@@ -26,7 +26,7 @@ const getUsers = async (req) => {
 const readUser = async (req) => {
   try {
     const query = req.body.query;
-    const user = await UsersModel.findOne(query).exec();
+    const user = await UsersModel.findOne(query);
 
     return user.toObject({
       versionKey: false,
@@ -50,7 +50,7 @@ const updateUser = async (req) => {
     const { success, error } = UserUpdatedSchema.safeParse(data);
 
     if (success && query) {
-      const user = await UsersModel.findOneAndUpdate(query, data).exec();
+      const user = await UsersModel.findOneAndUpdate(query, data);
 
       return user.toObject({
         versionKey: false,
@@ -73,7 +73,7 @@ const updateUser = async (req) => {
 const deleteUser = async (req) => {
   try {
     const query = req.body.query;
-    const user = await UsersModel.findOneAndDelete(query).exec();
+    const user = await UsersModel.findOneAndDelete(query);
 
     return user.toObject({
       versionKey: false,

@@ -11,9 +11,15 @@ const verifyAccessToken = async (req) => {
     const { success, data, error } = await JWT.verifyAccessToken(accessToken);
 
     if (success) {
-      const user = await UsersModel.findOne({ _id: data._id }).exec();
+      const user = await UsersModel.findOne({ _id: data.payload.userId });
 
-      return user;
+      return user.toObject({
+        versionKey: false,
+        transform: (_doc, ret) => {
+          delete ret.accountId;
+          return ret;
+        },
+      });
     } else {
       throw error;
     }
@@ -44,9 +50,9 @@ const signUpAccount = async (req) => {
         accountId,
       };
 
-      const { id } = await UsersModel.create(user);
+      const { _id } = await UsersModel.create(user);
 
-      return { id };
+      return { _id };
     } else {
       throw error;
     }
@@ -66,15 +72,15 @@ const signInAccount = async (req) => {
     const { success, error } = AccountsSchema.AccountSignInSchema.safeParse(payload);
 
     if (success) {
-      const account = await AccountsModel.findOne({ username: payload.username }).exec();
-      const user = await UsersModel.findOne({ accountId: account._id }).exec();
+      const account = await AccountsModel.findOne({ username: payload.username });
+      const user = await UsersModel.findOne({ accountId: account._id });
 
       if (account) {
         const password = Crypto.decrypt(account.password).data;
 
         if (password === payload.password) {
           const tokenPayload = {
-            id: user.id,
+            userId: user.id,
             username: account.username,
             password: account.password,
           };
