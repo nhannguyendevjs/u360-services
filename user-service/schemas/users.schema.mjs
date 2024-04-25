@@ -1,12 +1,11 @@
 import zod from 'zod';
 
 const UserSchema = zod.object({
-  id: zod.string(),
+  _id: zod.string(),
   name: zod.string(),
   email: zod.string().email(),
   phone: zod.string(),
   address: zod.string(),
-  accountId: zod.number(),
   role: zod.string(),
   avatar: zod.string(),
 });
