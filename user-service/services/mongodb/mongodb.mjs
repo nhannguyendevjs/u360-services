@@ -28,6 +28,18 @@ const objectId = (id) => {
   }
 };
 
+const transformQueryId = (query) => {
+  for (let key in query) {
+    if (key === '_id') {
+      query[key] = objectId(query[key]);
+    }
+    if (key !== '_id' && typeof query[key] === 'object') {
+      query[key] = transformQueryId(query[key]);
+    }
+  }
+  return query;
+};
+
 const bootstrap = async () => {
   if (MongoDBConfigs.ENABLE_MONGO) {
     try {
@@ -39,4 +51,4 @@ const bootstrap = async () => {
   }
 };
 
-export { bootstrap, close, collection, connect, objectId };
+export { bootstrap, close, collection, connect, objectId, transformQueryId };
