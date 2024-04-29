@@ -7,7 +7,7 @@ const AccountSignUpSchema = zod.object({
   address: zod.string(),
   username: zod.string(),
   password: zod.string(),
-  role: zod.enum(['admin', 'user']),
+  role: zod.enum(['admin', 'member']),
 });
 
 const AccountSignInSchema = zod.object({
