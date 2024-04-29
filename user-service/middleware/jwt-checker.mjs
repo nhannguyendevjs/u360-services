@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
+import * as mongoose from 'mongoose';
 import { JWTConfigs } from '../app.config.mjs';
 import { Logger } from '../services/logger/logger.mjs';
-import * as MongooseService from '../services/mongoose/mongoose.mjs';
 
 const jwtChecker = async (req, res, next) => {
   try {
@@ -12,7 +12,7 @@ const jwtChecker = async (req, res, next) => {
       const payload = jwt.verify(token, JWTConfigs.JWT_SECRET, { algorithm: JWTConfigs.JWT_ALGORITHM });
       const phone = payload.phone;
       const expireIn = DateTime.fromMillis(payload.exp * 1000);
-      const user = await MongooseService.mongoose.model('user').find({ phone: phone });
+      const user = await mongoose.model('user').find({ phone: phone });
       const today = DateTime.now();
 
       // Check if token is expired
@@ -41,3 +41,4 @@ const jwtChecker = async (req, res, next) => {
 };
 
 export { jwtChecker };
+

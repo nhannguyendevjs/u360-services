@@ -1,6 +1,6 @@
+import * as mongoose from 'mongoose';
 import { MongoDBConfigs } from '../../app.config.mjs';
 import { Logger } from '../logger/logger.mjs';
-import * as mongoose from 'mongoose';
 
 const disconnect = async () => {
   await mongoose.disconnect();
@@ -17,4 +17,5 @@ const bootstrap = async () => {
   }
 };
 
-export { bootstrap, disconnect, mongoose };
+export { bootstrap, disconnect };
+

@@ -1,8 +1,8 @@
-import * as JWT from '../../../jwt/jwt.mjs';
-import UsersModel from '../../../models/users.model.mjs';
 import AccountsModel from '../../../models/accounts.model.mjs';
+import UsersModel from '../../../models/users.model.mjs';
 import * as AccountsSchema from '../../../schemas/accounts.schema.mjs';
 import * as JwtSchema from '../../../schemas/jwt.schema.mjs';
+import * as JWT from '../../../services/jwt/jwt.mjs';
 import * as Crypto from '../../../utils/crypto/crypto.mjs';
 
 const verifyAccessToken = async (req) => {
@@ -189,3 +189,4 @@ const refreshAccessToken = async (req) => {
 };
 
 export { refreshAccessToken, signInAccount, signUpAccount, verifyAccessToken };
+

@@ -1,13 +1,13 @@
-import * as MongooseService from '../services/mongoose/mongoose.mjs';
+import * as mongoose from 'mongoose';
 
-const UsersModel = MongooseService.mongoose.model(
+const UsersModel = mongoose.model(
   'Users',
-  new MongooseService.mongoose.Schema({
+  new mongoose.Schema({
     name: String,
     email: String,
     phone: String,
     address: String,
-    accountId: MongooseService.mongoose.Types.ObjectId,
+    accountId: mongoose.Types.ObjectId,
     role: String,
     avatar: String,
   })

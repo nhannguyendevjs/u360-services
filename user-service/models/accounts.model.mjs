@@ -1,8 +1,8 @@
-import * as MongooseService from '../services/mongoose/mongoose.mjs';
+import * as mongoose from 'mongoose';
 
-const AccountsModel = MongooseService.mongoose.model(
+const AccountsModel = mongoose.model(
   'Accounts',
-  new MongooseService.mongoose.Schema({
+  new mongoose.Schema({
     username: String,
     password: {
       iv: String,
