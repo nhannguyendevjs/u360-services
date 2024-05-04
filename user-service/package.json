@@ -8,9 +8,9 @@
     "node": "21.x"
   },
   "scripts": {
-    "test": "vitest",
-    "test-ui": "vitest --ui --coverage.enabled=true",
-    "test-coverage": "vitest run --coverage",
+    "unit-test": "vitest",
+    "unit-test-ui": "vitest --ui --coverage.enabled=true",
+    "unit-test-coverage": "vitest run --coverage",
     "start": "node --env-file=.env index.mjs"
   },
   "repository": {
@@ -53,10 +53,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@vitest/coverage-istanbul": "^1.5.0",
-    "@vitest/coverage-v8": "^1.5.0",
-    "@vitest/ui": "^1.5.0",
+    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
     "pm2": "^5.3.1",
-    "vitest": "^1.5.0"
+    "vitest": "^1.6.0"
   }
 }
