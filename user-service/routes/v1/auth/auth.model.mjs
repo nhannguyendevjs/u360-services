@@ -73,9 +73,9 @@ const signInAccount = async (req) => {
 
     if (success) {
       const account = await AccountsModel.findOne({ username: payload.username });
-      const user = await UsersModel.findOne({ accountId: account._id });
 
       if (account) {
+        const user = await UsersModel.findOne({ accountId: account._id });
         const password = Crypto.decrypt(account.password).data;
 
         if (password === payload.password) {
@@ -189,4 +189,3 @@ const refreshAccessToken = async (req) => {
 };
 
 export { refreshAccessToken, signInAccount, signUpAccount, verifyAccessToken };
-
