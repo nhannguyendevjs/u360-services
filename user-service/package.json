@@ -29,6 +29,7 @@
   "homepage": "https://github.com/hoainhaannguyen94/u360-services#readme",
   "dependencies": {
     "@bull-board/express": "^5.15.3",
+    "@prisma/client": "^5.13.0",
     "axios": "^1.6.8",
     "bullmq": "^5.7.1",
     "compression": "^1.7.4",
