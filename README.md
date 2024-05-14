@@ -87,6 +87,20 @@ docker run -d --network u360-network --name u360-service -p 80:80 -p 443:443 -v 
 docker-compose up
 ```
 
+## Coding Naming Conventions
+
+➖ PascalCase 👉 Classes and Methods
+
+➖ camelCase 👉 variable and function names
+
+➖ snake_case 👉 file names and variable identifiers
+
+➖ kebab-case 👉 HTML attributes and CSS classes
+
+➖ UPPERCASE 👉 CONSTANTS and ENUMERATIONS
+
+➖ UPPER_SNAKE_CASE 👉 CONSTANTS and ENVIRONMENT_VARIABLES
+
 ## Git Branch Naming Convention
 
 ### Code Flow Branches
@@ -179,9 +193,7 @@ Use clear, descriptive names. Use camelCase for multi-word names. Avoid using Mo
 
 ## Visual Studio Extensions
 
-* ESLint
 * Prettier - Code formatter
-* Prettier ESLint
 * SonarLint
 * Code Spell Checker
 
