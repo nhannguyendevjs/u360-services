@@ -1,20 +1,15 @@
 import { UserUpdatedSchema } from '../../../schemas/users.schema.mjs';
-import UsersModel from '../../../models/users.model.mjs';
+import * as PostgresService from '../../../services/postgres/postgres.mjs';
 
 const getUsers = async (req) => {
   try {
     const query = req.body.query;
-    const users = await UsersModel.find(query);
+    const users = (await PostgresService.client.query('SELECT * FROM users WHERE $1', [query])).rows;
 
-    return users.map((user) =>
-      user.toObject({
-        versionKey: false,
-        transform: (_doc, ret) => {
-          delete ret.accountId;
-          return ret;
-        },
-      })
-    );
+    return users.map((user) => {
+      delete user.accountId;
+      return user;
+    });
   } catch (error) {
     return {
       success: false,
@@ -26,15 +21,10 @@ const getUsers = async (req) => {
 const readUser = async (req) => {
   try {
     const query = req.body.query;
-    const user = await UsersModel.findOne(query);
+    const user = (await PostgresService.client.query('SELECT * FROM users WHERE $1', [query])).rows[0];
+    delete user.accountId;
 
-    return user.toObject({
-      versionKey: false,
-      transform: (_doc, ret) => {
-        delete ret.accountId;
-        return ret;
-      },
-    });
+    return user;
   } catch (error) {
     return {
       success: false,
@@ -50,15 +40,10 @@ const updateUser = async (req) => {
     const { success, error } = UserUpdatedSchema.safeParse(data);
 
     if (success && query) {
-      const user = await UsersModel.findOneAndUpdate(query, data);
+      const user = await PostgresService.client.query('UPDATE users SET $1 WHERE $2 RETURNING *', [query, data]).rows[0];
+      delete user.accountId;
 
-      return user.toObject({
-        versionKey: false,
-        transform: (_doc, ret) => {
-          delete ret.accountId;
-          return ret;
-        },
-      });
+      return user;
     } else {
       throw error;
     }
@@ -73,15 +58,10 @@ const updateUser = async (req) => {
 const deleteUser = async (req) => {
   try {
     const query = req.body.query;
-    const user = await UsersModel.findOneAndDelete(query);
+    const user = (await PostgresService.client.query('DELETE FROM users WHERE $1 RETURNING *', [query])).rows[0];
+    delete user.accountId;
 
-    return user.toObject({
-      versionKey: false,
-      transform: (_doc, ret) => {
-        delete ret.accountId;
-        return ret;
-      },
-    });
+    return user;
   } catch (error) {
     return {
       success: false,

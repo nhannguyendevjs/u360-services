@@ -1,9 +1,7 @@
-import AccountsModel from '../../../models/accounts.model.mjs';
-import UsersModel from '../../../models/users.model.mjs';
-import * as AccountsSchema from '../../../schemas/accounts.schema.mjs';
 import * as JwtSchema from '../../../schemas/jwt.schema.mjs';
 import * as JWT from '../../../services/jwt/jwt.mjs';
 import * as Crypto from '../../../utils/crypto/crypto.mjs';
+import * as PostgresService from '../../../services/postgres/postgres.mjs';
 
 const verifyAccessToken = async (req) => {
   try {
@@ -11,15 +9,11 @@ const verifyAccessToken = async (req) => {
     const { success, data, error } = await JWT.verifyAccessToken(accessToken);
 
     if (success) {
-      const user = await UsersModel.findOne({ _id: data.payload.userId });
+      const user = (await PostgresService.client.query('SELECT * FROM users WHERE id = $1', [data.payload.userId])).rows[0];
 
-      return user.toObject({
-        versionKey: false,
-        transform: (_doc, ret) => {
-          delete ret.accountId;
-          return ret;
-        },
-      });
+      delete user.accountId;
+
+      return user;
     } else {
       throw error;
     }
@@ -38,9 +32,8 @@ const signUpAccount = async (req) => {
 
     if (success) {
       const account = { username: payload.username, password: Crypto.encrypt(payload.password).data };
-
-      const accountId = (await AccountsModel.create(account))._id;
-
+      const accountId = (await PostgresService.client.query('INSERT INTO accounts (username, password) VALUES ($1, $2) RETURNING id', [account.username, account.password])).rows[0]
+        .id;
       const user = {
         name: payload.name,
         email: payload.email,
@@ -49,10 +42,18 @@ const signUpAccount = async (req) => {
         role: payload.role,
         accountId,
       };
+      const userId = (
+        await PostgresService.client.query('INSERT INTO users (name, email, phone, address, role, account_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', [
+          user.name,
+          user.email,
+          user.phone,
+          user.address,
+          user.role,
+          user.accountId,
+        ])
+      ).rows[0].id;
 
-      const { _id } = await UsersModel.create(user);
-
-      return { _id };
+      return { id: userId };
     } else {
       throw error;
     }
@@ -72,10 +73,12 @@ const signInAccount = async (req) => {
     const { success, error } = AccountsSchema.AccountSignInSchema.safeParse(payload);
 
     if (success) {
-      const account = await AccountsModel.findOne({ username: payload.username });
+      const account = (await PostgresService.client.query('SELECT * FROM accounts WHERE username = $1', [payload.username])).rows[0];
 
       if (account) {
-        const user = await UsersModel.findOne({ accountId: account._id });
+        const user = (await PostgresService.client.query('SELECT * FROM users WHERE account_id = $1', [account.id])).rows[0];
+        delete user.accountId;
+
         const password = Crypto.decrypt(account.password).data;
 
         if (password === payload.password) {
@@ -111,13 +114,7 @@ const signInAccount = async (req) => {
           return {
             accessToken,
             refreshToken,
-            user: user.toObject({
-              versionKey: false,
-              transform: (_doc, ret) => {
-                delete ret.accountId;
-                return ret;
-              },
-            }),
+            user,
           };
         } else {
           hasError = true;

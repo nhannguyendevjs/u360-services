@@ -27,6 +27,8 @@ model User {
   role    Role
   avatar  String?
   account Account?
+
+  @@map("users")
 }
 
 model Account {
@@ -35,4 +37,6 @@ model Account {
   password Json
   user     User   @relation(fields: [userId], references: [id])
   userId   Int    @unique
+
+  @@map("accounts")
 }
