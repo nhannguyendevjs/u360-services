@@ -6,10 +6,12 @@ npm install prisma --save-dev
 
 npx prisma init --datasource-provider postgresql
 
-npx prisma generate
+npx prisma -v
 
-npx prisma db pull
+npx prisma generate --schema prisma/schema/schema.prisma
 
-npx prisma db push
+npx prisma db pull --force
+
+npx prisma db push --schema prisma/schema
 
 npx prisma studio
