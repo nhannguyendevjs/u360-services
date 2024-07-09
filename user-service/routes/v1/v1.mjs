@@ -12,8 +12,23 @@ const swaggerJsdocOptions = {
     openapi: '3.0.0',
     info: {
       title: 'u360 User service',
-      version: '1.0.0',
+      version: '0.0.0',
+      description: 'This is a REST API application made with Express.',
+      license: {
+        name: 'Licensed Under MIT',
+        url: 'https://github.com/nhannguyendevjs/u360-services/blob/master/LICENSE',
+      },
+      contact: {
+        name: 'Nhan Nguyen',
+        url: 'https://github.com/nhannguyendevjs',
+      },
     },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Development server',
+      },
+    ],
   },
   apis: ['./routes/v1/ping/*.controller.mjs', './routes/v1/auth/*.controller.mjs', './routes/v1/users/*.controller.mjs'],
 };

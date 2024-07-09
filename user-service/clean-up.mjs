@@ -6,7 +6,7 @@ const cleanUp = async (eventType, eventDetails) => {
   Logger.log('info', `Server is stop from event::${eventType}`, eventDetails);
 
   if (PostgresConfigs.ENABLE_POSTGRES) {
-    await PostgresService.close();
+    await PostgresService.disconnect();
     Logger.log('info', `Postgres connections closed`);
   }
 

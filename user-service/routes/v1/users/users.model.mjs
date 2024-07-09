@@ -4,7 +4,7 @@ import * as PostgresService from '../../../services/postgres/postgres.mjs';
 const getUsers = async (req) => {
   try {
     const query = req.body.query;
-    const users = (await PostgresService.client.query('SELECT * FROM users WHERE $1', [query])).rows;
+    const users = await PostgresService.client.$queryRaw`SELECT * FROM users`;
 
     return users.map((user) => {
       delete user.accountId;

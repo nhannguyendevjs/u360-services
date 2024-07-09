@@ -1,4 +1,5 @@
 import * as JwtSchema from '../../../schemas/jwt.schema.mjs';
+import * as AccountsSchema from '../../../schemas/accounts.schema.mjs';
 import * as JWT from '../../../services/jwt/jwt.mjs';
 import * as Crypto from '../../../utils/crypto/crypto.mjs';
 import * as PostgresService from '../../../services/postgres/postgres.mjs';

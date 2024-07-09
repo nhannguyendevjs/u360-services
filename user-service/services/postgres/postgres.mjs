@@ -1,18 +1,22 @@
-import { Connection } from 'postgresql-client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@prisma/client';
+import pg from 'pg';
 import { PostgresConfigs } from '../../app.config.mjs';
 import { Logger } from '../../services/logger/logger.mjs';
 
-const client = new Connection(PostgresConfigs.POSTGRES_URI);
+const pool = new pg.Pool({ connectionString: PostgresConfigs.POSTGRES_URI });
+const adapter = new PrismaPg(pool);
+const client = new PrismaClient({ adapter });
 
 const connect = async () => {
   if (PostgresConfigs.ENABLE_POSTGRES && client) {
-    await client.connect();
+    await client.$connect();
   }
 };
 
-const close = async () => {
+const disconnect = async () => {
   if (PostgresConfigs.ENABLE_POSTGRES && client) {
-    await client.close();
+    await client.$disconnect();
   }
 };
 
@@ -27,4 +31,5 @@ const bootstrap = async () => {
   }
 };
 
-export { bootstrap, close, connect, client };
+export { bootstrap, client, connect, disconnect };
+
