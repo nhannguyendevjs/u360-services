@@ -33,27 +33,17 @@ const signUpAccount = async (req) => {
 
     if (success) {
       const account = { username: payload.username, password: Crypto.encrypt(payload.password).data };
-      const accountId = (await PostgresService.client.query('INSERT INTO accounts (username, password) VALUES ($1, $2) RETURNING id', [account.username, account.password])).rows[0]
-        .id;
+      const accountId = (await PostgresService.client.account.create({ data: account })).id;
       const user = {
         name: payload.name,
         email: payload.email,
         phone: payload.phone,
         address: payload.address,
         role: payload.role,
+        avatar: payload.avatar,
         accountId,
       };
-      const userId = (
-        await PostgresService.client.query('INSERT INTO users (name, email, phone, address, role, account_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', [
-          user.name,
-          user.email,
-          user.phone,
-          user.address,
-          user.role,
-          user.accountId,
-        ])
-      ).rows[0].id;
-
+      const userId = (await PostgresService.client.user.create({ data: user })).id;
       return { id: userId };
     } else {
       throw error;
@@ -74,10 +64,11 @@ const signInAccount = async (req) => {
     const { success, error } = AccountsSchema.AccountSignInSchema.safeParse(payload);
 
     if (success) {
-      const account = (await PostgresService.client.query('SELECT * FROM accounts WHERE username = $1', [payload.username])).rows[0];
+      const account = await PostgresService.client.account.findFirst({ where: { username: payload.username } });
 
       if (account) {
-        const user = (await PostgresService.client.query('SELECT * FROM users WHERE account_id = $1', [account.id])).rows[0];
+        const user = await PostgresService.client.user.findFirst({ where: { accountId: account.id } });
+
         delete user.accountId;
 
         const password = Crypto.decrypt(account.password).data;

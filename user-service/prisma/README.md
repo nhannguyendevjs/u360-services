@@ -8,10 +8,10 @@ npx prisma init --datasource-provider postgresql
 
 npx prisma -v
 
-npx prisma generate --schema prisma/schema/schema.prisma
+npx prisma generate
 
-npx prisma db pull --force
+npx prisma db pull
 
-npx prisma db push --schema prisma/schema
+npx prisma db push --force-reset
 
 npx prisma studio
