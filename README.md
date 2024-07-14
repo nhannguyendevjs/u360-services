@@ -18,19 +18,6 @@ Copyright © 2024, [Nhan Nguyen](https://github.com/nhannguyendevjs).
 
 Released under the [MIT License](LICENSE).
 
-## Things We Code With
-
-![NPM](https://img.shields.io/badge/NPM-CB3837?logo=npm&logoColor=white&style=for-the-badge)
-![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=for-the-badge)
-![Docker](https://img.shields.io/badge/Docker-46a2f1?logo=docker&logoColor=white&style=for-the-badge)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge)
-![Nodejs](https://img.shields.io/badge/Nodejs-43853d?logo=Node.js&logoColor=white&style=for-the-badge)
-![MongoDB](https://img.shields.io/badge/MongoDB-13aa52?logo=mongodb&logoColor=white&style=for-the-badge)
-![Postgres](https://img.shields.io/badge/Postgres-316192?logo=postgresql&logoColor=white&style=for-the-badge)
-![Redis](https://img.shields.io/badge/Redis-CB3837?logo=redis&logoColor=white&style=for-the-badge)
-![BullMQ](https://img.shields.io/badge/BullMQ-1E293B?logo=bullmq&logoColor=white&style=for-the-badge)
-![Socket.io](https://img.shields.io/badge/Socket.io-010101?logo=socketio&logoColor=white&style=for-the-badge)
-
 ## Docker
 
 ### Installation
